@@ -5,14 +5,20 @@
 <head>
   <meta charset="UTF-8">
   
-  <link rel="icon" type="image/svg+xml" href="/logo-vikingo-verde.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/logo-vikingo-verde.png" />
-  <link rel="manifest" href="manifest.json">
+ <!-- Favicon per Android Chrome -->
+<link rel="icon" type="image/png" sizes="192x192" href="logo-vikingo-verde.png">
+<!-- Favicon per Safari iOS -->
+<link rel="apple-touch-icon" sizes="180x180" href="logo-vikingo-verde.png">
+<!-- Manifest per PWA -->
+<link rel="manifest" href="manifest.json">
+<!-- Favicon browser classico -->
+<link rel="icon" type="image/png" href="logo-vikingo-verde.png">
+
 
   <title>The Viking of the Web – Gestionale Preventivi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google Fonts: Un font robusto e nordico -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
@@ -31,16 +37,50 @@
       background: linear-gradient(120deg, var(--dark-bg) 60%, var(--viking-blue) 100%);
       color: var(--soft-white);
       font-family: 'Montserrat', Arial, sans-serif;
-      margin: 0;
+      margin: 5px;
       padding: 0;
       min-height: 100vh;
+    
     }
+    .btn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--viking-green);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 18px;
+  margin: 8px 0 8px 0;
+  font-size: 1.07rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.13s, box-shadow 0.13s;
+  box-shadow: 0 2px 10px #12332233;
+  gap: 8px;
+}
+.btn:active { transform: scale(0.97); }
+.btn:hover { background: var(--viking-bronze); color: var(--dark-bg);}
 
+.accordion-macro { cursor: pointer; -webkit-user-select: none; user-select: none; }
     .container {
       max-width: 1000px;
       margin: 0 auto;
       padding: 30px 16px 80px 16px;
     }
+
+input, select, textarea {
+  background: #22272c;
+  color: #eee;
+  border: 1px solid #355b43;
+  border-radius: 7px;
+  transition: border 0.18s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border: 1.5px solid var(--viking-bronze);
+  box-shadow: 0 2px 7px #d5b4722a;
+}
 
     .logo-header {
       display: flex;
@@ -183,5 +223,11 @@
 <body>
   <div id="app"></div>
   <script src="app.js"></script>
+
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>

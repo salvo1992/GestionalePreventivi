@@ -19,43 +19,150 @@ let preventivi = loadData(STORAGE_KEYS.preventivi);
 let clienti = loadData(STORAGE_KEYS.clienti);
 let note = loadData(STORAGE_KEYS.note);
 let preziario = loadData(STORAGE_KEYS.preziario);
+// --- Tipi progetto disponibili ---
+const tipiProgetto = [
+  "Web App", 
+  "App Mobile", 
+  "E-commerce", 
+  "Landing Page", 
+  "Gestionale", 
+  "Altro"
+];
 // Se è la prima volta, popola un preziario base:
 if (!preziario.length) {
   preziario = [
-    {
-      nome: "Sito Web",
-      sottovoci: [
-        { nome: "Front-end", prezzo: 600 },
-        { nome: "Back-end", prezzo: 700 },
-        { nome: "SEO base", prezzo: 200 },
-        { nome: "Responsive", prezzo: 150 },
-        { nome: "Multilingua", prezzo: 250 },
-        { nome: "Dominio & Hosting", prezzo: 100 }
-      ]
-    },
-    {
-      nome: "App Mobile",
-      sottovoci: [
-        { nome: "Front-end", prezzo: 1000 },
-        { nome: "Back-end", prezzo: 1200 },
-        { nome: "Database", prezzo: 500 },
-        { nome: "Notifiche Push", prezzo: 150 },
-        { nome: "Geolocalizzazione", prezzo: 250 }
-      ]
-    },
-    {
-      nome: "E-commerce",
-      sottovoci: [
-        { nome: "Catalogo prodotti", prezzo: 800 },
-        { nome: "Pagamenti online", prezzo: 400 },
-        { nome: "Dashboard amministratore", prezzo: 400 },
-        { nome: "Spedizioni", prezzo: 250 }
-      ]
-    }
-  ];
-  saveData(STORAGE_KEYS.preziario, preziario);
+  {
+    nome: "Front-end",
+    sottovoci: [
+      { nome: "HTML5", prezzo: 300 },
+      { nome: "CSS3", prezzo: 150 },
+      { nome: "JavaScript", prezzo: 250 },
+      { nome: "TypeScript", prezzo: 250 },
+      { nome: "React.js", prezzo: 400 },
+      { nome: "Vue.js", prezzo: 350 },
+      { nome: "Angular", prezzo: 350 },
+      { nome: "Bootstrap/Tailwind", prezzo: 120 },
+      { nome: "Animazioni/UI", prezzo: 80 },
+      { nome: "Responsive/mobile-first", prezzo: 100 },
+      { nome: "Accessibilità (WCAG)", prezzo: 80 },
+      { nome: "Gestione stato (Redux/MobX)", prezzo: 90 }
+    ]
+  },
+  {
+    nome: "Back-end",
+    sottovoci: [
+      { nome: "Node.js", prezzo: 400 },
+      { nome: "Express.js", prezzo: 200 },
+      { nome: "Python/Django/Flask", prezzo: 500 },
+      { nome: "PHP/Laravel/Symfony", prezzo: 400 },
+      { nome: "Java/Spring", prezzo: 500 },
+      { nome: "API REST", prezzo: 300 },
+      { nome: "API GraphQL", prezzo: 350 },
+      { nome: "Autenticazione JWT", prezzo: 120 },
+      { nome: "File Upload/Storage", prezzo: 110 }
+    ]
+  },
+  {
+    nome: "Database",
+    sottovoci: [
+      { nome: "MySQL", prezzo: 150 },
+      { nome: "PostgreSQL", prezzo: 180 },
+      { nome: "MongoDB", prezzo: 170 },
+      { nome: "SQLite", prezzo: 100 },
+      { nome: "Firebase/Firestore", prezzo: 130 },
+      { nome: "Progettazione Schema DB", prezzo: 140 },
+      { nome: "Backup/Restore DB", prezzo: 60 }
+    ]
+  },
+  {
+    nome: "Design & UX/UI",
+    sottovoci: [
+      { nome: "Prototipo Figma", prezzo: 120 },
+      { nome: "Logo/Brand", prezzo: 180 },
+      { nome: "Wireframe", prezzo: 60 },
+      { nome: "Palette colori", prezzo: 50 },
+      { nome: "Design System", prezzo: 100 },
+      { nome: "Microinterazioni", prezzo: 60 },
+      { nome: "Icon set personalizzato", prezzo: 60 }
+    ]
+  },
+  {
+    nome: "SEO & Performance",
+    sottovoci: [
+      { nome: "SEO base", prezzo: 120 },
+      { nome: "SEO avanzata", prezzo: 220 },
+      { nome: "Performance (Lighthouse)", prezzo: 80 },
+      { nome: "Ottimizzazione immagini", prezzo: 70 },
+      { nome: "Microdati/Schema.org", prezzo: 70 }
+    ]
+  },
+  {
+    nome: "Sicurezza",
+    sottovoci: [
+      { nome: "HTTPS/SSL", prezzo: 50 },
+      { nome: "Autenticazione 2FA", prezzo: 70 },
+      { nome: "Cifratura dati sensibili", prezzo: 110 },
+      { nome: "Gestione permessi/ACL", prezzo: 100 },
+      { nome: "Protezione XSS/CSRF", prezzo: 100 },
+      { nome: "Privacy e GDPR", prezzo: 80 }
+    ]
+  },
+  {
+    nome: "Testing & Qualità",
+    sottovoci: [
+      { nome: "Test Unitari (Jest/JUnit)", prezzo: 70 },
+      { nome: "Test End-to-End (Cypress/Selenium)", prezzo: 100 },
+      { nome: "Code Review", prezzo: 80 },
+      { nome: "Documentazione API", prezzo: 60 }
+    ]
+  },
+  {
+    nome: "Mobile/Native",
+    sottovoci: [
+      { nome: "App Android (Java/Kotlin)", prezzo: 600 },
+      { nome: "App iOS (Swift)", prezzo: 700 },
+      { nome: "Ibrida (React Native/Flutter)", prezzo: 450 },
+      { nome: "Push Notification", prezzo: 150 },
+      { nome: "Geolocalizzazione", prezzo: 130 },
+      { nome: "Accesso camera/media", prezzo: 120 }
+    ]
+  },
+  {
+    nome: "E-commerce",
+    sottovoci: [
+      { nome: "Catalogo prodotti", prezzo: 800 },
+      { nome: "Pagamenti online", prezzo: 400 },
+      { nome: "Carrello", prezzo: 250 },
+      { nome: "Gestione ordini", prezzo: 300 },
+      { nome: "Dashboard amministratore", prezzo: 400 },
+      { nome: "Coupon/sconti", prezzo: 110 },
+      { nome: "Integrazione spedizioni", prezzo: 130 }
+    ]
+  },
+  {
+    nome: "Integrazioni & Extra",
+    sottovoci: [
+      { nome: "Google Maps", prezzo: 100 },
+      { nome: "Social login (Google, Facebook)", prezzo: 120 },
+      { nome: "Newsletter/Mailchimp", prezzo: 100 },
+      { nome: "Chat online/WhatsApp", prezzo: 90 },
+      { nome: "Servizi esterni/API", prezzo: 140 },
+      { nome: "PWA/Installabile", prezzo: 80 }
+    ]
+  },
+  {
+    nome: "DevOps & Deploy",
+    sottovoci: [
+      { nome: "Deploy su Netlify/Vercel", prezzo: 90 },
+      { nome: "Deploy su VPS/Cloud", prezzo: 130 },
+      { nome: "Automazione CI/CD", prezzo: 110 },
+      { nome: "Dockerizzazione", prezzo: 110 },
+      { nome: "Backup automatico", prezzo: 90 }
+    ]
+  }
+];
+saveData(STORAGE_KEYS.preziario, preziario); // Così aggiorni subito anche il localStorage
 }
-
 // === Utility DOM ===
 function el(tag, opts = {}, ...children) {
   const e = document.createElement(tag);
@@ -190,6 +297,20 @@ function homeView() {
     )
   );
   app.appendChild(dash2);
+
+ const backupBar = el('div', { style: "margin:32px 0 16px 0; text-align:center;" },
+  el('button', {
+    className: 'btn btn-salva-note',
+    style: "margin-right:18px;",
+    onclick: () => exportBackup()
+  }, "⬇️ Esporta Backup"),
+  el('button', {
+    className: 'btn btn-salva-note',
+    onclick: () => importBackup()
+  }, "⬆️ Importa Backup")
+);
+app.appendChild(backupBar);
+ 
 }
 
 // === PREZIARIO DINAMICO ===
@@ -335,55 +456,71 @@ function creaPreventivoView() {
   const app = document.getElementById('app');
   app.innerHTML = '';
   app.appendChild(btnHome());
-
   app.appendChild(el('h2', { className: 'section-title' }, "Nuovo Preventivo"));
 
-  // Seleziona cliente
-  const clienteSel = el('select', { style: "margin-bottom:12px;" },
+  // Wrapper form per layout migliore
+  const formWrap = el('div', { style: "background:rgba(45,106,79,0.10);border-radius:20px;padding:32px 22px 22px 22px;max-width:540px;margin:0 auto;box-shadow:0 0 20px 0 #1730293a;" });
+
+  // Cliente
+  const clienteSel = el('select', { style: "margin-bottom:18px;font-size:1.13rem;border-radius:9px;padding:5px 10px;" },
     el('option', { value: '' }, "Seleziona cliente..."),
     ...clienti.map(c => el('option', { value: c.id }, c.nome))
   );
-  // Seleziona categoria
-  const catSel = el('select', { style: "margin-bottom:12px;" },
-    el('option', { value: '' }, "Seleziona categoria..."),
-    ...preziario.map((cat, i) => el('option', { value: i }, cat.nome))
+
+  // Tipo progetto (solo etichetta)
+  const tipiProgetto = [
+    "Web App", "App Mobile", "E-commerce", "Landing Page", "Gestionale", "Altro"
+  ];
+  const tipoProjSel = el('select', { style: "margin-bottom:18px;font-size:1.13rem;border-radius:9px;padding:5px 10px;" },
+    el('option', { value: '' }, "Tipo progetto..."),
+    ...tipiProgetto.map(t => el('option', { value: t }, t))
   );
-  // Sottovoci (riempite dinamicamente)
-  const boxSottovoci = el('div', { style: "margin-bottom:17px;" });
-  let sottovociCheck = [], scelte = [];
-  catSel.onchange = () => {
-    boxSottovoci.innerHTML = '';
-    sottovociCheck = [];
-    scelte = [];
-    if (!catSel.value) return;
-    preziario[catSel.value].sottovoci.forEach((sv, idx) => {
-      const check = el('input', { type: 'checkbox', id: `sv_${idx}` });
+
+  // Accordion macro/micro-categorie
+  const boxSottovoci = el('div', { style: "margin-bottom:24px;" });
+  let scelte = [];
+  // Mostra sempre tutto il preziario (accordion con open/close)
+  preziario.forEach((cat, idxCat) => {
+    // Accordion "macro" con apri/chiudi
+    const macroHeader = el('div', {
+      style: "font-weight:700;font-size:1.15rem;margin-top:13px;margin-bottom:5px;color:var(--viking-bronze);cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;",
+      onclick: () => {
+        macroBody.style.display = (macroBody.style.display === "none" ? "" : "none");
+        macroHeader.querySelector('span').textContent = macroBody.style.display === "none" ? "►" : "▼";
+      }
+    }, el('span', {}, "▼"), cat.nome);
+
+    const macroBody = el('div', { style: "margin-left:15px;margin-bottom:4px;" });
+    cat.sottovoci.forEach((sv, idx) => {
+      const check = el('input', { type: 'checkbox', id: `sv_${idxCat}_${idx}` });
       check.onchange = () => {
         if (check.checked) {
-          scelte.push({ ...sv });
+          scelte.push({ ...sv, macro: cat.nome });
         } else {
-          scelte = scelte.filter(x => x.nome !== sv.nome);
+          scelte = scelte.filter(x => !(x.nome === sv.nome && x.macro === cat.nome));
         }
         calcTotale();
       };
-      sottovociCheck.push(check);
-      boxSottovoci.appendChild(
-        el('div', { style: "margin-bottom:6px;" },
+      macroBody.appendChild(
+        el('div', { style: "margin-bottom:6px;display:flex;align-items:center;gap:7px;" },
           check,
-          el('label', { for: `sv_${idx}`, style: "margin-left:7px;" }, `${sv.nome} (€${sv.prezzo})`)
+          el('label', { for: `sv_${idxCat}_${idx}`, style: "margin-left:7px;font-size:1.04rem;" },
+            `${sv.nome} (${cat.nome}) – €${sv.prezzo}`)
         )
       );
     });
-  };
+    boxSottovoci.appendChild(macroHeader);
+    boxSottovoci.appendChild(macroBody);
+  });
 
-  // Altri campi
-  const inizio = el('input', { type: 'date', style: "margin-bottom:10px;" });
-  const fine = el('input', { type: 'date', style: "margin-bottom:10px;" });
-  const acconto = el('input', { type: 'number', style: "margin-bottom:10px;", placeholder: "Acconto €" });
-  const noteCliente = el('textarea', { placeholder: "Note per il cliente", style: "margin-bottom:10px;width:100%;" });
+  // Altri campi (ben separati)
+  const inizio = el('input', { type: 'date', style: "margin-bottom:13px;font-size:1.1rem;padding:5px 9px;border-radius:7px;border:1px solid #2d6a4f44;" });
+  const fine = el('input', { type: 'date', style: "margin-bottom:13px;font-size:1.1rem;padding:5px 9px;border-radius:7px;border:1px solid #2d6a4f44;" });
+  const acconto = el('input', { type: 'number', style: "margin-bottom:13px;font-size:1.1rem;padding:5px 9px;border-radius:7px;border:1px solid #2d6a4f44;", placeholder: "Acconto €" });
+  const noteCliente = el('textarea', { placeholder: "Note per il cliente", style: "margin-bottom:13px;width:100%;min-height:48px;font-size:1.1rem;padding:8px 11px;border-radius:7px;border:1px solid #2d6a4f44;" });
 
-  // Totale
-  const totaleBox = el('div', { style: "margin-bottom:10px;font-weight:700;font-size:1.11rem;" }, "Totale: €0");
+  // Totale in grande evidenza
+  const totaleBox = el('div', { style: "margin-bottom:14px;font-weight:700;font-size:1.33rem;color:var(--viking-bronze);" }, "Totale: €0");
   function calcTotale() {
     const tot = scelte.reduce((a, sv) => a + Number(sv.prezzo), 0);
     totaleBox.textContent = "Totale: €" + tot;
@@ -393,16 +530,16 @@ function creaPreventivoView() {
   // Salva
   const btnSalva = el('button', {
     className: "btn btn-salva-note",
-    style: "margin-top:12px;",
+    style: "margin-top:14px;margin-right:14px;font-size:1.1rem;",
     onclick: () => {
       if (!clienteSel.value) return alert("Seleziona un cliente.");
-      if (!catSel.value) return alert("Seleziona una categoria.");
+      if (!tipoProjSel.value) return alert("Seleziona tipo progetto.");
       if (!scelte.length) return alert("Seleziona almeno una componente.");
       const prezzoTotale = calcTotale();
       const nuovo = {
         id: Math.random().toString(36).slice(2),
         clienteId: clienteSel.value,
-        categoria: preziario[catSel.value].nome,
+        categoria: tipoProjSel.value,
         scelte: scelte,
         data: inizio.value ? new Date(inizio.value).getTime() : Date.now(),
         dataFine: fine.value ? new Date(fine.value).getTime() : null,
@@ -417,19 +554,23 @@ function creaPreventivoView() {
     }
   }, "💾 Salva preventivo");
 
-  app.appendChild(el('div', { style: "margin-bottom:15px;" },
-    el('label', {}, "Cliente: "), clienteSel,
-    el('div', {}, "Categoria: "), catSel,
-    el('div', {}, "Componenti selezionabili:"), boxSottovoci,
-    totaleBox,
-    el('div', {}, "Data inizio: "), inizio,
-    el('div', {}, "Data fine: "), fine,
-    el('div', {}, "Acconto: "), acconto,
-    el('div', {}, "Note cliente: "), noteCliente,
-    btnSalva,
-    el('button', { style: "margin-left:16px;", onclick: () => show(preventiviView) }, "Annulla")
-  ));
+  // Ricomponi form
+  formWrap.appendChild(el('div', { style: "margin-bottom:10px;font-size:1.15rem;font-weight:600;" }, "Cliente: ", clienteSel));
+  formWrap.appendChild(el('div', { style: "margin-bottom:10px;font-size:1.15rem;font-weight:600;" }, "Tipo progetto: ", tipoProjSel));
+  formWrap.appendChild(el('div', { style: "margin-bottom:6px;font-size:1.13rem;font-weight:600;" }, "Componenti selezionabili:"));
+  formWrap.appendChild(boxSottovoci);
+  formWrap.appendChild(totaleBox);
+  formWrap.appendChild(el('div', {}, "Data inizio: ", inizio));
+  formWrap.appendChild(el('div', {}, "Data fine: ", fine));
+  formWrap.appendChild(el('div', {}, "Acconto: ", acconto));
+  formWrap.appendChild(el('div', {}, "Note cliente: ", noteCliente));
+  formWrap.appendChild(btnSalva);
+  formWrap.appendChild(el('button', { className: "btn", style: "margin-left:16px;", onclick: () => show(preventiviView) }, "Annulla"));
+
+  app.appendChild(formWrap);
 }
+
+
 
 // === DETTAGLIO PREVENTIVO ===
 function preventivoDetailView(pid) {
@@ -638,6 +779,52 @@ function shareEmail(p) {
   const subject = `Preventivo per ${cl ? cl.nome : '-'}`;
   const body = `Categoria: ${p.categoria || '-'}\nComponenti: ${p.scelte.map(sv => sv.nome).join(', ')}\nPrezzo: €${p.prezzoTotale}\nNote: ${p.noteCliente || ''}`;
   window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+}
+function exportBackup() {
+  const data = {
+    preventivi,
+    clienti,
+    preziario,
+    note
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `viking-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function importBackup() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+      try {
+        const data = JSON.parse(event.target.result);
+        if (!data.preventivi || !data.clienti) throw "Backup non valido";
+        preventivi = data.preventivi;
+        clienti = data.clienti;
+        preziario = data.preziario || [];
+        note = data.note || [];
+        saveData(STORAGE_KEYS.preventivi, preventivi);
+        saveData(STORAGE_KEYS.clienti, clienti);
+        saveData(STORAGE_KEYS.preziario, preziario);
+        saveData(STORAGE_KEYS.note, note);
+        alert("Backup importato correttamente!");
+        show(homeView);
+      } catch (err) {
+        alert("Backup non valido!");
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 // === START ===
