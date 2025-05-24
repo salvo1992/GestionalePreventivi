@@ -10,12 +10,12 @@
   "lang": "it-IT",
   "icons": [
     {
-      "src": "logo-vikingo-verde.png",
+      "src": "logo-vikingo-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "logo-vikingo-verde.png",
+      "src": "logo-vikingo-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
