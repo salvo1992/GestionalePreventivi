@@ -1,0 +1,23 @@
+{
+  "name": "The Viking of the Web – Gestionale Preventivi",
+  "short_name": "VikingPreventivi",
+  "description": "Gestionale preventivi smart, offline e responsive per servizi digitali.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#16181d",
+  "theme_color": "#2d6a4f",
+  "orientation": "portrait",
+  "lang": "it-IT",
+  "icons": [
+    {
+      "src": "logo-vikingo-verde.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo-vikingo-verde.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
